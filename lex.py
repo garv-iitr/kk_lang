@@ -13,13 +13,14 @@ tokens = [
     (Token('END'),          r'khel_khatam'),
     (Token('IF'),           r'faisla'),
     (Token('ELSE'),         r'nahi_toh'),
-    (Token('PRINT'),        r'elaan_karo'),
+    (Token('PRINT'),        r'aelaan_karo'),
     (Token('VAR_DECL'),     r'khiladi'),
     (Token('ASSIGN'),       r'='),
     (Token('NUMBER'),       r'\d+'),
     (Token('STRING'),       r'"[^"]*"'),
     (Token('ID'),           r'[a-zA-Z_]\w*'),
-    (Token('OP'),           r'=='),
+    (Token('NE'),           r'!='),
+    (Token('EE'),           r'=='),
     (Token('GE'),           r'>='),
     (Token('LE'),           r'<='),
     (Token('GT'),           r'>'),
@@ -32,7 +33,8 @@ tokens = [
     (Token('SEMICOLON'),    r';'),
     (Token('CURLYL'),       r'{'),
     (Token('CURLYR'),       r'}'),
-    (Token('EXPRESSION'),   r'\([^)]*\)'),
+    (Token('OPENL'),        r'\('),
+    (Token('CLOSER'),       r'\)'),
     (Token('SKIP'),         r'[ \t\n]+')  # Spaces and Newlines
 ]
 def lex(file):
@@ -54,13 +56,34 @@ def lex(file):
                     break
             if not match:
                 raise SyntaxError(f"Illegal character at {pos}: {file_code_text_line[pos]}")
-    return p
+    open_found = 0
+    i_ = []
+    j_ = []
+    i = 0
+    while(i<len(p)):
+        if (p[i][0].data == "OPENL"):
+            i_.append(i)
+            open_found += 1
+        
+        if ((open_found != 0) and (p[i][0].data == "CLOSER")):
+            j_.append(i)
+            open_found -= 1
+            if (open_found == 0):
+                p_temp = p[:i_[0]]
+                t = Token("EXPRESSION")
+                t.value = ""
+                for _ in range(i_[0], j_[-1]+1):
+                    t.value += p[_][0].value
+                t_ = tuple()
+                p_temp.append(t_+(t, t.value))
+                p_temp.extend(p[j_[-1]+1:])
+            i -= (j_[-1] - i_[0]+1)
+            p = p_temp
+            i_ = []
+            j_ = []
+        i+=1
 
-def interpreter(p: list[Token]):
-    if (p[0].data=="START") and (p[len(p)-1].data=="END"):
-        1
-    else:
-        print("Code ka khel-khatam ho gya... nahi chala")
+    return p
 
 if (__name__ == "__main__"):
     f = open("input.txt", "r")
