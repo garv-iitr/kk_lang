@@ -73,7 +73,7 @@ def lex(file):
                 t = Token("EXPRESSION")
                 t.value = ""
                 for _ in range(i_[0], j_[-1]+1):
-                    t.value += p[_][0].value
+                    t.value += p[_][1]
                 t_ = tuple()
                 p_temp.append(t_+(t, t.value))
                 p_temp.extend(p[j_[-1]+1:])
