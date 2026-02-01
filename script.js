@@ -10,6 +10,8 @@ console.log("KhelKhatam IDE: Script Loaded");
 const runBtn = document.getElementById('runBtn');
 const terminalOutput = document.getElementById('terminal-output');
 const clearTermBtn = document.getElementById('clearTerm');
+const toggleSidebarBtn = document.getElementById('toggleSidebar');
+const sidebar = document.getElementById('sidebar');
 
 const initialCode = `// Write your KhelKhatam code here
 khel_shuru
@@ -55,12 +57,9 @@ function khelKhatamCompletions(context) {
         options: [
             { label: "khel_shuru", type: "keyword", info: "Starts the program" },
             { label: "khel_khatam", type: "keyword", info: "Ends the program" },
-            { label: "shuru_kar", type: "keyword", info: "Starts the program (legacy)" },
-            { label: "bas_khatam", type: "keyword", info: "Ends the program (legacy)" },
             { label: "faisla", type: "keyword", info: "Conditional (if)" },
             { label: "nahi_toh", type: "keyword", info: "Alternative (else)" },
             { label: "khiladi", type: "keyword", info: "Variable declaration" },
-            { label: "bol", type: "keyword", info: "Print statement (legacy)" },
             {
                 label: "aelaan_karo",
                 type: "function",
@@ -166,4 +165,40 @@ runBtn.addEventListener('click', async (e) => {
         runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         runBtn.innerHTML = originalBtnContent;
     }
+});
+
+// ==========================================
+// Bottom Drawer Logic
+// ==========================================
+
+const bottomDrawer = document.getElementById('bottom-drawer');
+const closeDrawerBtn = document.getElementById('closeDrawer');
+
+function openDrawer() {
+    bottomDrawer.classList.remove('h-0');
+    bottomDrawer.classList.add('h-1/2');
+
+    // Trigger window resize to help CodeMirror adjust
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 300);
+}
+
+function closeDrawer() {
+    bottomDrawer.classList.remove('h-1/2');
+    bottomDrawer.classList.add('h-0');
+
+    // Trigger window resize
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 300);
+}
+
+if (closeDrawerBtn) {
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+}
+
+// Auto-open drawer on run
+runBtn.addEventListener('click', () => {
+    openDrawer();
 });

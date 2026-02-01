@@ -17,6 +17,22 @@ def declare_function(p: list):
     except:
         return 0
 
+def declare_uninit_function(p: list):
+    # Matches: [VAR_DECL, [ID, None]]
+    try:
+        if ((p[0][0].data=="VAR_DECL") and (p[1][0][0].data=="ID") and (p[1][1] is None)):
+             return 1
+    except:
+        return 0
+
+def declare_init_expr_function(p: list):
+    # Matches: [VAR_DECL, [ID, [OP, [A, B]]]]
+    try:
+        if ((p[0][0].data=="VAR_DECL") and (p[1][0][0].data=="ID") and (p[1][1][0][0].data in ["PLUS","MINUS","MULT","DIV","MOD"])):
+             return 1
+    except:
+        return 0
+
 def print_function(p: list):
     try:
         if ((p[0][0].data=="PRINT") and (p[1][0].data=="EXPRESSION")):
@@ -55,6 +71,22 @@ def traversing(ast, k = 0):
                 f.write(f"int {ast[i][1][0][1]} = {ast[i][1][1][1]};\n")
             else:
                 f.write(f"string {ast[i][1][0][1]} = {ast[i][1][1][1]};\n")
+
+        elif (declare_init_expr_function(ast[i])):
+            # int ID = A op B;
+            # ast[i][1][0][1] is ID
+            # ast[i][1][1][0][1] is OP symbol (e.g. +)
+            # ast[i][1][1][1][0][1] is A value
+            # ast[i][1][1][1][1][1] is B value
+            op = ast[i][1][1][0][1]
+            id_name = ast[i][1][0][1]
+            val_a = ast[i][1][1][1][0][1]
+            val_b = ast[i][1][1][1][1][1]
+            f.write(f"int {id_name} = {val_a} {op} {val_b};\n")
+
+        elif (declare_uninit_function(ast[i])):
+            # khiladi ID; -> int ID; (default)
+            f.write(f"int {ast[i][1][0][1]};\n")
 
         elif (print_function(ast[i])):
             temp = f"cout<<{ast[i][1][1]}<<endl;\n"

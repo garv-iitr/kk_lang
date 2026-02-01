@@ -25,14 +25,17 @@
 
 <body class="bg-gray-900 text-white h-screen flex flex-col overflow-hidden font-sans">
 
-    <!-- Header -->
-    <header class="bg-gray-800 border-b border-gray-700 p-4 flex justify-between items-center h-16 shrink-0 z-10">
+    <header
+        class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b border-gray-700 p-4 flex justify-between items-center h-16 shrink-0 z-10 shadow-lg">
         <div class="flex items-center space-x-2">
-            <h1 class="text-xl font-bold text-green-400 tracking-wider">KhelKhatam IDE</h1>
-            <span class="text-xs text-gray-400 bg-gray-700 px-2 py-0.5 rounded">v1.0</span>
+            <h1
+                class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-emerald-600 tracking-wider drop-shadow-sm">
+                KhelKhatam IDE</h1>
+            <span
+                class="text-xs text-gray-300 bg-gray-700/50 border border-gray-600 px-2 py-0.5 rounded backdrop-blur-sm">v1.1</span>
         </div>
         <button id="runBtn"
-            class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-md font-medium transition-colors flex items-center gap-2 shadow-lg">
+            class="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white px-6 py-2 rounded-md font-medium transition-all duration-300 flex items-center gap-2 shadow-lg shadow-green-900/20 btn-glow transform hover:-translate-y-0.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z">
@@ -44,39 +47,50 @@
         </button>
     </header>
 
-    <main class="flex-1 flex flex-col md:flex-row h-full relative">
-
-        <section class="flex-1 flex flex-col border-r border-gray-700 min-w-0">
+    <div class="flex-1 flex flex-col overflow-hidden relative">
+        <main class="flex-1 flex flex-col min-h-0 bg-gray-900 relative transition-all duration-300 ease-in-out"
+            id="main-editor-panel">
             <div
                 class="bg-gray-800 text-xs uppercase tracking-widest text-gray-400 p-2 pl-4 border-b border-gray-700 flex justify-between">
                 <span>input.kk</span>
                 <span class="text-[10px] opacity-50">KhelKhatam Source</span>
             </div>
             <div id="editor-container" class="flex-1 overflow-hidden relative text-sm"></div>
-        </section>
+        </main>
 
-        <section class="flex-1 flex flex-col min-w-0">
-            <div
-                class="bg-gray-800 text-xs uppercase tracking-widest text-gray-400 p-2 pl-4 border-b border-gray-700 flex justify-between">
-                <span>output.cpp</span>
-                <span class="text-[10px] opacity-50">Generated C++</span>
+        <section id="bottom-drawer"
+            class="h-0 flex flex-row glass-panel transition-all duration-300 ease-in-out overflow-hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)]">
+
+            <div class="w-1/2 flex flex-col border-r border-gray-700/50">
+                <div
+                    class="bg-gray-800/50 text-xs uppercase tracking-widest text-green-400 p-2 pl-4 border-b border-gray-700/50 font-bold flex justify-between items-center backdrop-blur-sm">
+                    <span>C++ Output</span>
+                </div>
+                <div id="cpp-container" class="flex-1 overflow-hidden relative text-sm bg-transparent"></div>
             </div>
-            <div id="cpp-container" class="flex-1 overflow-hidden relative text-sm bg-[#1e1e1e]"></div>
+
+            <div class="w-1/2 flex flex-col bg-transparent">
+                <div
+                    class="bg-gray-800/50 text-xs uppercase tracking-widest text-gray-400 p-1 pl-4 flex justify-between items-center backdrop-blur-sm border-b border-gray-700/50">
+                    <span>Terminal</span>
+                    <div class="flex items-center">
+                        <button id="clearTerm" class="hover:text-white px-2 mr-2 transition-colors">Clear</button>
+                        <button id="closeDrawer" class="hover:text-red-400 px-2 transition-transform hover:scale-110"
+                            title="Close Panel">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <pre id="terminal-output"
+                    class="flex-1 p-4 font-mono text-sm text-gray-300 overflow-y-auto whitespace-pre-wrap outline-none bg-transparent"></pre>
+            </div>
+
         </section>
-
-    </main>
-
-    <footer
-        class="h-64 shrink-0 flex flex-col border-t border-gray-700 bg-[#0d0d0d] transition-all duration-300 ease-in-out"
-        id="terminal-panel">
-        <div class="bg-gray-800 text-xs uppercase tracking-widest text-gray-400 p-1 pl-4 flex justify-between items-center cursor-ns-resize"
-            title="Drag to resize (not implemented in this mock)">
-            <span>Terminal</span>
-            <button id="clearTerm" class="hover:text-white px-2">Clear</button>
-        </div>
-        <pre id="terminal-output"
-            class="flex-1 p-4 font-mono text-sm text-gray-300 overflow-y-auto whitespace-pre-wrap"></pre>
-    </footer>
+    </div>
 
     <script type="module" src="script.js"></script>
 </body>
