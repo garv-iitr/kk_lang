@@ -38,6 +38,13 @@ def ifelse_function(p:list):
     except:
         return 0
 
+def while_function(p:list):
+    try:
+        if ((p[0][0].data=="WHILE") and (p[1][0].data=="EXPRESSION")):
+            return 1
+    except:
+        return 0
+
 def traversing(ast, k = 0):
     for i in range(len(ast)):
         if (start_function(ast[i])):
@@ -61,10 +68,17 @@ def traversing(ast, k = 0):
             f.write(temp)
             traversing (ast[i][2], 1)
             f.write("} \n")
-            print("LENGTH OF AST = ", len(ast[i]))
+            # print("LENGTH OF AST = ", len(ast[i]))
             if (len(ast[i])==4):
                 f.write("else { \n")
                 traversing(ast[i][3], 1)
                 f.write("} \n")
+
+        elif (while_function(ast[i])):
+            temp = f"while"+ast[i][1][1]+"{ \n"
+            f.write(temp)
+            traversing (ast[i][2], 1)
+            f.write("} \n")
+            
     if (k == 0):
         f.write("return 0;\n}\n")
