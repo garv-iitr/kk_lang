@@ -16,6 +16,7 @@ tokens = [
     (Token('PRINT'),        r'aelaan_karo'),
     (Token('VAR_DECL'),     r'khiladi'),
     (Token('ASSIGN'),       r'='),
+    (Token("WHILE"),        r'khelte_raho'),
     (Token('NUMBER'),       r'\d+'),
     (Token('STRING'),       r'"[^"]*"'),
     (Token('ID'),           r'[a-zA-Z_]\w*'),

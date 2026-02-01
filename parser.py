@@ -45,6 +45,11 @@ def ifelseTokenCommandCheck(p: list[tuple[Token]], index: int):
         return 1
     return 0
 
+def whileTokenCommandCheck(p: list[tuple[Token]], index: int):
+    if ((p[index][0].data=="WHILE") and (p[index+1][0].data=="EXPRESSION") and (p[index+2][0].data=="CURLYL")):
+        return 1
+    return 0
+
     
 
 # def evaluate(p: list[Token], i:int):
@@ -93,7 +98,7 @@ def parser(p: list[Token]):
                     count_l-=1
                 list1.append(p[j])
                 j += 1
-                print(i, j)
+                # print(i, j)
             j-=1
             # print("PJ," ,p[j])
             # print(list1.pop())
@@ -151,6 +156,34 @@ def parser(p: list[Token]):
             #     command = [p[i], p[i+1], parsed_list1]
 
             # print("COMMAND:",command)
+
+        elif (whileTokenCommandCheck(p, i)):
+            list1 = []
+            j = i+3 
+            # print(i, j, p[i], p[j])
+            count_l=1
+            
+            while (count_l!=0):
+                if (p[j][0].data=="CURLYL"):
+                    count_l+=1
+                elif (p[j][0].data=="CURLYR"):
+                    count_l-=1
+                list1.append(p[j])
+                j += 1
+                # print(i, j)
+            j-=1
+
+            parsed_list1 = parser(list1)
+            print(parsed_list1)
+            command = [p[i], p[i+1], parsed_list1]
+
+            # print(i, j, p[i], p[j])
+            # print("COMMAND: ", command)
+            appendInASTatIndex(indexStorage[-1], ast, command)
+            i = j 
+
+
+
         elif (p[i][0].data == "SEMICOLON"):
             i+=1
             continue
