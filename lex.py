@@ -15,6 +15,7 @@ tokens = [
     (Token('ELSE'),         r'nahi_toh'),
     (Token('PRINT'),        r'aelaan_karo'),
     (Token('VAR_DECL'),     r'khiladi'),
+    (Token('INPUT'),        r'qubool_karo'),
     (Token('ASSIGN'),       r'='),
     (Token("WHILE"),        r'khelte_raho'),
     (Token('NUMBER'),       r'\d+'),

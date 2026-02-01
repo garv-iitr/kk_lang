@@ -1,6 +1,5 @@
 # Khel Khatam Language
 
-## Basis of our Project
 We are basically making a **transpiler** in which we convert our own language to a **C++ file** to compile it.
 
 ## Usage
@@ -17,6 +16,120 @@ git clone https://github.com/garv-iitr/kk_lang.git
 ```bash
 http://localhost:5000
 ```
+
+
+## Documentation
+
+### START and END -> `khel_shuru` and `khel_khatam`
+
+The keyword `khel_shuru` is equivalent to 
+```cpp
+#include <iostream>
+using namespace std;
+
+int main(){
+```
+The keyword `khel_khatam` is equivalent to 
+```cpp
+    return 0;
+}
+```
+Syntax:
+```
+khel_shuru
+
+khel_khatam
+```
+
+
+### PRINT -> `aelaan_karo`
+The keyword `aelaan_karo` is equivalent to 
+```cpp
+cout << (expression) << endl;
+```
+
+Syntax:
+```
+khel_shuru
+    aelaan_karo ("Hello World");
+    aelaan_karo (10);
+khel_khatam
+```
+> [!NOTE]
+> **Brackets** are a must
+
+### VAR_DECL -> `khiladi`
+`khiladi` is a keyword which is used to declare a type of vairiable in runtime
+`khiladi` loosely relates to `auto` in cpp
+
+Syntax:
+```
+khel_shuru
+    khiladi x = 10;
+    aelaan_karo (x);
+    
+    khiladi y = "Hello";
+khel_khatam
+```
+> [!NOTE]
+> **Initilization** at the time of declaration is necessary
+
+
+### ASSIGNMENT 
+The syntax of assignment after an operation is exactly same as of cpp
+for example 
+```
+x=x+10;
+``` 
+is used in cpp as well as kkl (khel khatam lang)
+
+Syntax:
+```
+khel_shuru
+    khiladi x = 10;
+    x = x + 1;
+
+khel_khatam
+```
+
+### IF-ELSE -> `faisla` and `nahi_toh` 
+
+The syntax of `faisla` and `nahi_toh` is exactly same as of if-else in `cpp`
+
+Syntax:
+```
+khel_shuru
+    khiladi x = 3;
+    khiladi y = 1;
+    faisla (x==y){
+        aelaan_karo (“Are Equal”)
+    }
+    nahi_toh {
+        aelaan_karo (“Not Equal”)
+    }
+khel_khatam
+```
+> [!NOTE]
+> **Brackets** for the expressions are a must
+
+### WHILE -> `khelte_raho`
+
+Syntax, yet again, matches with `cpp` completely
+
+Syntax:
+```
+khel_shuru
+    khiladi counter = 1;
+
+    khelte_raho (counter <= 5) {
+        aelaan_karo("Round number:");
+        aelaan_karo(counter);
+        counter = counter + 1;
+    }
+khel_khatam
+```
+
+
 
 
 ## Process
@@ -132,7 +245,7 @@ For implementation purposes, we built a **Flask-based compiler server** that saf
 3. CORS (Cross-Origin Resource Sharing)
 - **Issue:** Browsers block requests from one **Origin** (e.g., frontend on port `8000`) to another (backend on port `5000`) for security reasons. Even with `flask-cors`, we faced persistent preflight errors.
 
-- **Fix:** We moved to a **Single Origin Architecture**. Instead of running two separate servers, we configured Flask (`app.py`) to serve the HTML/JS static files itse
+- **Fix:** We moved to a **Single Origin Architecture**. Instead of running two separate servers, we configured Flask (`app.py`) to serve the HTML/JS static files itself. Now, everything lives on localhost:5000, so "Cross-Origin" rules no longer apply.
 
 
 
