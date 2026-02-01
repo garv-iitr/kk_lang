@@ -101,7 +101,7 @@ def parser(p: list[Token]):
                 # print(i, j)
             j-=1
             # print("PJ," ,p[j])
-            # print(list1.pop())
+            list1.pop()
             # print("LIST1!!!",list1)
 
             try:
@@ -174,7 +174,7 @@ def parser(p: list[Token]):
             j-=1
 
             parsed_list1 = parser(list1)
-            print(parsed_list1)
+            # print(parsed_list1)
             command = [p[i], p[i+1], parsed_list1]
 
             # print(i, j, p[i], p[j])
