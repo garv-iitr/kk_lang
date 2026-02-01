@@ -55,6 +55,7 @@ astg = [(Token("START"), 'khel_shuru')]
 
 def parser(p: list[Token]):
     ast = []
+    # print(p)
     if (p[0][0].data == "START"):
         ast = astg
     indexStorage = [[0]]
@@ -75,14 +76,14 @@ def parser(p: list[Token]):
         
         elif (assignTokenCommandCheck(p, i)):
             # print(f"assign command at : {i}")
-            appendInASTatIndex(indexStorage[-1], ast, [p[i+1], [p[i], [p[i+3]], [p[i+2], p[i+4]]]])
+            appendInASTatIndex(indexStorage[-1], ast, [p[i+1], [p[i], [p[i+3], [p[i+2], p[i+4]]]]])
             i += 4
             # print(ast)
 
         elif (ifelseTokenCommandCheck(p, i)):
             list1 = []
             j = i+3 
-            print(i, j, p[i], p[j])
+            # print(i, j, p[i], p[j])
             count_l=1
             
             while (count_l!=0):
@@ -92,13 +93,16 @@ def parser(p: list[Token]):
                     count_l-=1
                 list1.append(p[j])
                 j += 1
-
-            list1.pop()
+                print(i, j)
+            j-=1
+            # print("PJ," ,p[j])
+            # print(list1.pop())
+            # print("LIST1!!!",list1)
 
             try:
-                print("try")
-                print(p[j][0])
-                if (p[j][0].data == "ELSE"):
+                # print("try")
+                # print(p[j+1][1])
+                if (p[j+1][0].data == "ELSE"):
                     list2 = []
                     j += 2
                     while (p[j][0].data!="CURLYR"):
@@ -106,27 +110,27 @@ def parser(p: list[Token]):
                         j += 1
                     
                     parsed_list1 = parser(list1)
-                    print("MKBAAAAG")
-                    print(f"parsed list1 : {parsed_list1}")
+                    # print(f"parsed list1 : {parsed_list1}")
                     parsed_list2 = parser(list2)
-                    print(f"parsed list2 : {parsed_list2}")
+                    # print(f"parsed list2 : {parsed_list2}")
                     parsed_list1.insert(0, (Token("TRUE"), 'true'))
                     parsed_list2.insert(0, (Token("FALSE"), 'false'))
                     command = [p[i], p[i+1], parsed_list1, parsed_list2]
-                print(command)
+                # print(command)
                 
             except:
-                print("Except")
-                print(list1)
+                # print("Except")
+                # p.insert(j+1)
+                # print(list1)
                 parsed_list1 = parser(list1)
                 parsed_list1.insert(0, (Token("TRUE"), 'true'))
                 command = [p[i], p[i+1], parsed_list1]
-                print(command)
+                # print(command)
 
             # print(i, j, p[i], p[j])
-            print("COMMAND: ", command)
+            # print("COMMAND: ", command)
             appendInASTatIndex(indexStorage[-1], ast, command)
-            i = j + 1
+            i = j 
             # if (p[j+1][0].data == "ELSE"):
             #     list2 = []
             #     j += 2
@@ -135,7 +139,6 @@ def parser(p: list[Token]):
             #         j += 1
                 
             #     parsed_list1 = parser(list1)
-            #     print("MKBAAAAG")
             #     print(f"parsed list1 : {parsed_list1}")
             #     parsed_list2 = parser(list2)
             #     print(f"parsed list2 : {parsed_list2}")
@@ -143,7 +146,6 @@ def parser(p: list[Token]):
             #     parsed_list2.insert(0, (Token("FALSE"), 'false'))
             #     command = [p[i], p[i+1], parsed_list1, parsed_list2]
             # else:
-            #     # print("MKBAAAAG")
             #     parsed_list1 = parser(list1)
             #     parsed_list1.insert(0, (Token("TRUE"), 'true'))
             #     command = [p[i], p[i+1], parsed_list1]
@@ -163,12 +165,10 @@ def parser(p: list[Token]):
         elif (p[i][0].data == "START"):
             i += 1
             continue
-        else:
-            print("SYNTAX ERROR")
 
 
         i += 1
-        print(i)
+        # print(i)
         # print(p[i][1])
 
     return ast
@@ -192,7 +192,7 @@ def parser(p: list[Token]):
 
 if (__name__ == "__main__"):
     from lex import lex
-    f = open("ifelse.txt", "r")
+    f = open("input.txt", "r")
     p = lex(f)
     print("p : [", end="")
     for i in range(len(p)):
