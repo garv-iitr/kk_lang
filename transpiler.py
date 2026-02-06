@@ -1,11 +1,19 @@
-f = open("output.cpp", 'w')
+f = open("output.cpp", 'a')
 
-f.write("#include<iostream>\n")
-f.write("using namespace std;\n\n")
+def include_header():
+    f.write("#include<iostream>\n\n")
+
 
 def start_function(p):
     try:
         if (p[0].data=="START"):
+            return 1
+    except:
+        return 0
+
+def start_function_function(p):
+    try:
+        if (p[0].data=="FUNC_START"):
             return 1
     except:
         return 0
@@ -51,6 +59,14 @@ def input_function(p: list):
             return 1
     except:
         return 0
+    
+
+def function_function(p :list):
+    try:
+        if (p[0][0].data=="FUNC_START"):
+            return 1
+    except:
+        return 0
 
 
 def traversing(ast, c=0, k = 0):
@@ -59,16 +75,25 @@ def traversing(ast, c=0, k = 0):
             f.write("int main(){\n")
             c+=1
 
+        elif (start_function_function(ast[i])):
+            print("AAAAST: ",ast[-1])
+            if (ast[-1][1][1]=='int'):
+                f.write("int "+ast[i][1]+"(){\n")
+            else:
+                f.write("std::string "+ast[i][1]+"(){\n")
+
+            c+=1
+
         elif (declare_function(ast[i])):
             if (ast[i][1][1][0].data=="NUMBER"):
                 temp = f"int {ast[i][1][0][1]} = {ast[i][1][1][1]};\n" 
                 f.write(temp)
             else:
-                temp = f"string {ast[i][1][0][1]} = {ast[i][1][1][1]};\n" 
+                temp = f"std::string {ast[i][1][0][1]} = {ast[i][1][1][1]};\n" 
                 f.write(temp)
 
         elif (print_function(ast[i])):
-            temp = f"cout<<{ast[i][1][1]}<<endl;\n"
+            temp = f"std::cout << {ast[i][1][1]} << std::endl;\n"
             f.write(temp)
 
         elif (assign_function(ast[i])):
@@ -76,7 +101,7 @@ def traversing(ast, c=0, k = 0):
             f.write(temp)
 
         elif (ifelse_function(ast[i])):
-            temp = f"if"+ast[i][1][1]+"{ \n"
+            temp = f"if "+ast[i][1][1]+" { \n"
             f.write(temp)
             traversing (ast[i][2], c, 1)
             f.write("} \n")
@@ -87,7 +112,7 @@ def traversing(ast, c=0, k = 0):
                 f.write("} \n")
 
         elif (while_function(ast[i])):
-            temp = f"while"+ast[i][1][1]+"{ \n"
+            temp = f"while "+ast[i][1][1]+" { \n"
             f.write(temp)
             traversing (ast[i][2], 1)
             f.write("} \n")
@@ -96,8 +121,25 @@ def traversing(ast, c=0, k = 0):
             if (ast[i][1][1]=="NUMBER"):
                 f.write(f"int {ast[i][1][1]}; \n")
             else:
-                f.write(f"string {ast[i][1][1]}; \n")
-                f.write(f"cin>>{ast[i][1][1]}; \n")
+                f.write(f"std::string {ast[i][1][1]}; \n")
+                f.write(f"std::cin >> {ast[i][1][1]}; \n")
+
+        elif (function_function(ast[i])):
+            temp = f"int "+ast[i][0][1] +"() {\n"
+            f.write(temp)
 
     if (k == 0):
-        f.write("return 0;\n}\n")
+        print(ast)
+        if (ast[-1][0].data == "END"):
+            if (ast[-1][1]=='khel_khatam'):
+                f.write("return 0;\n}\n\n")
+            else:
+                temp = "return "+ ast[-1][1][0] +";\n}\n\n"
+                f.write(temp)
+                
+        # if (p[-1][0].data == "END") and (p[0][0].data=="FUNC_START"):
+        #     f.write("return 0;\n}\n\n")
+
+
+def closeFile():
+    f.close()

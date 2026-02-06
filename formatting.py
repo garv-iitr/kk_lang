@@ -1,8 +1,13 @@
-def format():
-    f=open("output.cpp","r")
-    all_lines=f.readlines()
-    f.close()
+import os
 
+def format():
+    base = os.path.dirname(__file__)
+    out_path = os.path.join(base, "output.cpp")
+
+    with open(out_path, 'r') as f:
+        all_lines = f.readlines()
+
+    print("all lines : ",all_lines)
     new_lines=[]
 
     c=0
@@ -26,5 +31,6 @@ def format():
         curlyopen=0
         curlyclose=0
     f=open("output.cpp","w")
+    f.seek(0)
     f.writelines(new_lines)
     f.close()

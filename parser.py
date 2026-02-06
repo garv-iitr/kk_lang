@@ -58,6 +58,11 @@ def inputTokenCommandCheck(p,i):
     return 0
 
     
+def functionTokenCommandCheck(p, i):
+    if ((p[i][0].data=="FUNC_START") and (p[i+1][0].data=="ID")):
+        return 1
+    return 0
+
 
 # def evaluate(p: list[Token], i:int):
     
@@ -66,6 +71,7 @@ astg = [(Token("START"), 'khel_shuru')]
 
 
 def parser(p: list[Token]):
+    variable_table = {}
     ast = []
     # print(p)
     if (p[0][0].data == "START"):
@@ -73,6 +79,12 @@ def parser(p: list[Token]):
     indexStorage = [[0]]
     TraversalIndexes = [[0]]
     i = 0
+
+    if (functionTokenCommandCheck(p, i)):
+        appendInASTatIndex(indexStorage[-1], ast, (p[i][0], p[i+1][1]))
+        i += 2
+        # print(ast)
+
     while (i < len(p)):
         if (printTokenCommandCheck(p, i)):
             # print(f"print command at : {i}")
@@ -83,6 +95,10 @@ def parser(p: list[Token]):
         elif (varDeclTokenCommandCheck(p, i)):
             # print(f"varDecl command at : {i}")
             appendInASTatIndex(indexStorage[-1], ast, [p[i], [p[i+1], p[i+3]]])
+            if (p[i+3][1].isdigit()):
+                variable_table[p[i+1][1]] = "int"
+            else:
+                variable_table[p[i+1][1]] = "string"
             i += 4
             # print(ast)
         
@@ -204,6 +220,11 @@ def parser(p: list[Token]):
             continue
 
         elif (p[i][0].data == "END"):
+            if (i + 2 == len(p)):
+                print(variable_table, p[i+1][1])
+                appendInASTatIndex(indexStorage[-1], ast, (p[i][0], (p[i+1][1], variable_table[p[i+1][1]])))
+            else:
+                appendInASTatIndex(indexStorage[-1], ast, p[i])
             return ast
         
         elif (p[i][0].data == "START"):
@@ -214,7 +235,10 @@ def parser(p: list[Token]):
         i += 1
         # print(i)
         # print(p[i][1])
+    # if (p[-1][0].data=="END"):
+    #     appendInASTatIndex(indexStorage[-1], ast, (p[-1], ))
 
+    print(ast)
     return ast
     
 

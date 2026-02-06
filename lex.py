@@ -10,6 +10,8 @@ class Token:
 
 tokens = [
     (Token('START'),        r'khel_shuru'),
+    (Token('FUNC_START'),   r'naya_khel_shuru'),
+    # (Token('FUNC_END'),     r'naya_khel_khatam'),
     (Token('END'),          r'khel_khatam'),
     (Token('IF'),           r'faisla'),
     (Token('ELSE'),         r'nahi_toh'),
