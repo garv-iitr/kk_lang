@@ -61,16 +61,27 @@ def while_function(p:list):
     except:
         return 0
 
-def traversing(ast, k = 0):
+def input_function(p: list):
+    try:
+        if ((p[0][0].data=="INPUT") and (p[1][0].data=="ID")):
+            return 1
+    except:
+        return 0
+
+
+def traversing(ast, c=0, k = 0):
     for i in range(len(ast)):
         if (start_function(ast[i])):
             f.write("int main(){\n")
+            c+=1
 
         elif (declare_function(ast[i])):
             if (ast[i][1][1][0].data=="NUMBER"):
-                f.write(f"int {ast[i][1][0][1]} = {ast[i][1][1][1]};\n")
+                temp = f"int {ast[i][1][0][1]} = {ast[i][1][1][1]};\n" 
+                f.write(temp)
             else:
-                f.write(f"string {ast[i][1][0][1]} = {ast[i][1][1][1]};\n")
+                temp = f"string {ast[i][1][0][1]} = {ast[i][1][1][1]};\n" 
+                f.write(temp)
 
         elif (declare_init_expr_function(ast[i])):
             # int ID = A op B;
@@ -93,17 +104,18 @@ def traversing(ast, k = 0):
             f.write(temp)
 
         elif (assign_function(ast[i])):
-            f.write(f"{ast[i][1][0][1]} = {ast[i][1][1][1][0][1]} {ast[i][1][1][0][1]} {ast[i][1][1][1][1][1]};\n")
+            temp = f"{ast[i][1][0][1]} = {ast[i][1][1][1][0][1]} {ast[i][1][1][0][1]} {ast[i][1][1][1][1][1]};\n"
+            f.write(temp)
 
         elif (ifelse_function(ast[i])):
             temp = f"if"+ast[i][1][1]+"{ \n"
             f.write(temp)
-            traversing (ast[i][2], 1)
+            traversing (ast[i][2], c, 1)
             f.write("} \n")
             # print("LENGTH OF AST = ", len(ast[i]))
             if (len(ast[i])==4):
                 f.write("else { \n")
-                traversing(ast[i][3], 1)
+                traversing(ast[i][3], c, 1)
                 f.write("} \n")
 
         elif (while_function(ast[i])):
@@ -111,6 +123,13 @@ def traversing(ast, k = 0):
             f.write(temp)
             traversing (ast[i][2], 1)
             f.write("} \n")
-            
+
+        elif(input_function(ast[i])):
+            if (ast[i][1][1]=="NUMBER"):
+                f.write(f"int {ast[i][1][1]}; \n")
+            else:
+                f.write(f"string {ast[i][1][1]}; \n")
+                f.write(f"cin>>{ast[i][1][1]}; \n")
+
     if (k == 0):
         f.write("return 0;\n}\n")

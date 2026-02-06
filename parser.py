@@ -50,6 +50,13 @@ def whileTokenCommandCheck(p: list[tuple[Token]], index: int):
         return 1
     return 0
 
+
+def inputTokenCommandCheck(p,i):
+    if ((p[i][0].data=="INPUT") and (p[i+1][0].data=="ID") and \
+        (p[i+2][0].data=="SEMICOLON")):
+        return 1
+    return 0
+
     
 
 # def evaluate(p: list[Token], i:int):
@@ -101,7 +108,7 @@ def parser(p: list[Token]):
                 # print(i, j)
             j-=1
             # print("PJ," ,p[j])
-            # print(list1.pop())
+            list1.pop()
             # print("LIST1!!!",list1)
 
             try:
@@ -122,6 +129,7 @@ def parser(p: list[Token]):
                     parsed_list2.insert(0, (Token("FALSE"), 'false'))
                     command = [p[i], p[i+1], parsed_list1, parsed_list2]
                 # print(command)
+                    appendInASTatIndex(indexStorage[-1], ast, command)
                 
             except:
                 # print("Except")
@@ -131,10 +139,10 @@ def parser(p: list[Token]):
                 parsed_list1.insert(0, (Token("TRUE"), 'true'))
                 command = [p[i], p[i+1], parsed_list1]
                 # print(command)
+                appendInASTatIndex(indexStorage[-1], ast, command)
 
             # print(i, j, p[i], p[j])
             # print("COMMAND: ", command)
-            appendInASTatIndex(indexStorage[-1], ast, command)
             i = j 
             # if (p[j+1][0].data == "ELSE"):
             #     list2 = []
@@ -174,7 +182,7 @@ def parser(p: list[Token]):
             j-=1
 
             parsed_list1 = parser(list1)
-            print(parsed_list1)
+            # print(parsed_list1)
             command = [p[i], p[i+1], parsed_list1]
 
             # print(i, j, p[i], p[j])
@@ -182,6 +190,9 @@ def parser(p: list[Token]):
             appendInASTatIndex(indexStorage[-1], ast, command)
             i = j 
 
+        elif (inputTokenCommandCheck(p,i)):
+            appendInASTatIndex(indexStorage[-1],ast,[p[i],p[i+1]])
+            i+=2
 
 
         elif (p[i][0].data == "SEMICOLON"):
