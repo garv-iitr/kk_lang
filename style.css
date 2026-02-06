@@ -1,0 +1,95 @@
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+.cm-editor {
+    height: 100%;
+}
+
+.cm-scroller {
+    overflow: auto;
+}
+
+.cm-content {
+    caret-color: white;
+}
+
+.cm-cursor {
+    border-left-color: white !important;
+}
+
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
+}
+
+.running-glow {
+    animation: pulse-green 2s infinite;
+}
+
+/* Visual Polish */
+
+/* 1. Line Numbers (Gold/Teal) */
+.cm-lineNumbers .cm-gutterElement {
+    color: #fbbf24 !important;
+    /* Amber-400 */
+    opacity: 0.8;
+}
+
+/* 2. Glassmorphism */
+.glass-panel {
+    background-color: rgba(30, 30, 30, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 3. Button Glow */
+@keyframes neon-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.7);
+        transform: scale(1.02);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+    }
+}
+
+.btn-glow:hover {
+    animation: neon-glow 1.5s infinite alternate;
+}
+
+/* 4. Selection Color */
+::selection {
+    background: rgba(52, 211, 153, 0.3);
+    /* Emerald-400 tint */
+    color: white;
+}

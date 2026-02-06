@@ -40,7 +40,7 @@ khel_shuru
 
 khel_khatam
 ```
-
+***
 
 ### PRINT -> `aelaan_karo`
 The keyword `aelaan_karo` is equivalent to 
@@ -57,7 +57,7 @@ khel_khatam
 ```
 > [!NOTE]
 > **Brackets** are a must
-
+***
 ### VAR_DECL -> `khiladi`
 `khiladi` is a keyword which is used to declare a type of vairiable in runtime
 `khiladi` loosely relates to `auto` in cpp
@@ -72,9 +72,9 @@ khel_shuru
 khel_khatam
 ```
 > [!NOTE]
-> **Initilization** at the time of declaration is necessary
+> **Initialization** at the time of declaration is necessary
 
-
+***
 ### ASSIGNMENT 
 The syntax of assignment after an operation is exactly same as of cpp
 for example 
@@ -91,7 +91,7 @@ khel_shuru
 
 khel_khatam
 ```
-
+***
 ### IF-ELSE -> `faisla` and `nahi_toh` 
 
 The syntax of `faisla` and `nahi_toh` is exactly same as of if-else in `cpp`
@@ -111,7 +111,7 @@ khel_khatam
 ```
 > [!NOTE]
 > **Brackets** for the expressions are a must
-
+***
 ### WHILE -> `khelte_raho`
 
 Syntax, yet again, matches with `cpp` completely
