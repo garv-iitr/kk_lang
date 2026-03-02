@@ -2,6 +2,8 @@
 
 We are basically making a **transpiler** in which we convert our own language to a **C++ file** to compile it.
 
+Demo Video :- https://www.youtube.com/watch?v=j92UziDDm5A
+
 ## Usage
 
 1. Clone the repository
@@ -258,10 +260,3 @@ For implementation purposes, we built a **Flask-based compiler server** that saf
 4. We can use loops and nested loops.
 5. We can use while loop in this.
 6. We have color-coded the Editor which also has auto-recommendation.
-
-
-## What Our Code Cannot Do
-
-It cannot do all the things that are not mentioned above.
-
-Demo Video :- https://www.youtube.com/watch?v=j92UziDDm5A
